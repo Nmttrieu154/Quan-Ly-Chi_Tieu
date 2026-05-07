@@ -56,9 +56,16 @@ def tinh_tong(ds, loai, thang):
 def tinh_tong_theo_danh_muc(ds, danh_muc, thang):
     pass
 
-
+# Thời xong
 def loc_giao_dich(ds, thang, loai, danh_muc):
-    pass
+    ket_qua = []
+    for gd in ds:
+        thang_gd = gd["ngay"][:7]
+        if (thang_gd == thang and
+            gd["loai"].lower() == loai.lowre() and
+            gd["danh_muc"].lower() == danh_muc.lower()):
+            ket_qua.append(gd)
+    return ket_qua
 
 
 def tinh_tiet_kiem_cong_don(ds, thang):
