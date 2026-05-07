@@ -1,0 +1,9 @@
+{
+  "python.analysis.typeCheckingMode": "basic",
+  "python.analysis.diagnosticMode": "workspace",
+  "python.analysis.reportMissingModuleSource": "none",
+  "editor.rulers": [80],
+  "[python]": {
+    "editor.formatOnSave": false
+  }
+}
