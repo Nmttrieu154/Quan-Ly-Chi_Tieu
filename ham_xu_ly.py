@@ -62,7 +62,7 @@ def loc_giao_dich(ds, thang, loai, danh_muc):
     for gd in ds:
         thang_gd = gd["ngay"][:7]
         if (thang_gd == thang and
-            gd["loai"].lower() == loai.lowre() and
+            gd["loai"].lower() == loai.lower() and
             gd["danh_muc"].lower() == danh_muc.lower()):
             ket_qua.append(gd)
     return ket_qua
