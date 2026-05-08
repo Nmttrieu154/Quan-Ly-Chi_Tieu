@@ -40,14 +40,55 @@ def them_giao_dich():
 
 
 def luu_ngan_sach_ui():
-    # TODO: (Yêu cầu 2 - Phân bổ ngân sách theo tháng)
+    thang = e_ns_thang.get().strip()
+    danh_muc = cb_ns_dm.get().strip()
+    han_muc_str = e_ns_hanmuc.get().strip()
 
+    if not thang or not danh_muc or not han_muc_str:
+        messagebox.showwarning("Thiếu thông tin", "Vui lòng nhập đầy đủ tháng, danh mục và hạn mức.")
+        return
+
+    try:
+        han_muc = int(han_muc_str)
+        if han_muc <= 0:
+            raise ValueError
+    except ValueError:
+        messagebox.showerror("Lỗi", "Hạn mức phải là số nguyên dương.")
+        return
+
+    ns = h.doc_ngan_sach()
+
+    if thang not in ns:
+        ns[thang] = {}
+    ns[thang][danh_muc] = han_muc
+
+    h.luu_ngan_sach(ns)
+    messagebox.showinfo("Thành công", f"Đã lưu ngân sách:\n{danh_muc} | Tháng {thang}: {han_muc:,} đ")
+
+    ds = h.doc_giao_dich()
+    canh_bao_ngan_sach(danh_muc, thang)
     pass
 
 
 def canh_bao_ngan_sach(danh_muc, thang):
-    # TODO: (Yêu cầu 3 - Cảnh báo chi vượt ngân sách)
+    ns = h.doc_ngan_sach()
+    ds = h.doc_giao_dich()
 
+    if thang not in ns or danh_muc not in ns[thang]:
+        return
+
+    han_muc = ns[thang][danh_muc]
+    tong_chi = h.tinh_tong_theo_danh_muc(ds, danh_muc, thang)
+
+    if tong_chi > han_muc:
+        messagebox.showwarning(
+            "⚠️ Vượt ngân sách!",
+            f"Danh mục: {danh_muc}\n"
+            f"Tháng: {thang}\n"
+            f"Hạn mức: {han_muc:,} đ\n"
+            f"Đã chi: {tong_chi:,} đ\n"
+            f"Vượt: {tong_chi - han_muc:,} đ"
+        )
     pass
 
 
