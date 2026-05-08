@@ -26,17 +26,63 @@ DANH_MUC_CHI = [
 # CÁC HÀM XỬ LÝ SỰ KIỆN  (gọi khi bấm nút)
 # ============================================================
 
-
 def doi_danh_muc(*args):
-    # TODO: Khi đổi loại Thu/Chi thì danh sách combobox cũng đổi
-
-    pass
-
+    loai = var_loai.get()
+    if loai == "thu":
+        cb_danh_muc.config(values=DANH_MUC_THU)
+        cb_danh_muc.set(DANH_MUC_THU[0])
+    else:
+        cb_danh_muc.config(values=DANH_MUC_CHI)
+        cb_danh_muc.set(DANH_MUC_CHI[0])
 
 def them_giao_dich():
-    # TODO: (Yêu cầu 1 - Nhập thu/chi với danh mục)
+    loai = var_loai.get()
+    danh_muc = cb_danh_muc.get().strip()
+    so_tien_str = e_so_tien.get().strip()
+    ngay = e_ngay.get().strip()
+    ghi_chu = e_ghi_chu.get().strip()
+    if not danh_muc or not so_tien_str or not ngay:
+        messagebox.showwarning("Lỗi nhập liệu", "Vui lòng nhập đầy đủ Danh mục, Số tiền và Ngày!")
+        return
+    try:
+        so_tien = int(so_tien_str)
+        if so_tien <= 0:
+            messagebox.showwarning("Lỗi nhập liệu", "Số tiền phải lớn hơn 0!")
+            return
+    except ValueError:
+        messagebox.showwarning("Lỗi nhập liệu", "Số tiền phải là số nguyên (không chứa chữ hoặc ký tự đặc biệt)!")
+        return
+    try:
+        datetime.strptime(ngay, "%Y-%m-%d")
+    except ValueError:
+        messagebox.showwarning("Lỗi nhập liệu", "Ngày phải nhập đúng định dạng YYYY-MM-DD!")
+        return
+    ds = h.doc_giao_dich()
+    
+    id_moi = max([gd["id"] for gd in ds], default=0) + 1
+    
+    gd_moi = {
+        "id": id_moi,
+        "loai": loai,
+        "danh_muc": danh_muc,
+        "so_tien": so_tien,
+        "ngay": ngay,
+        "ghi_chu": ghi_chu
+    }
+    
+    ds.append(gd_moi)
+    h.luu_giao_dich(ds)
 
-    pass
+    messagebox.showinfo("Thành công", f"Đã lưu giao dịch:\n[{loai.upper()}] {danh_muc} - {so_tien:,} đ")
+
+    e_so_tien.delete(0, tk.END)
+    e_ghi_chu.delete(0, tk.END)
+
+    hien_thi_danh_sach()
+    
+    if loai == "chi":
+        thang = ngay[:7]  # Lấy chuỗi YYYY-MM từ ngày
+        canh_bao_ngan_sach(danh_muc, thang)
 
 
 def luu_ngan_sach_ui():
