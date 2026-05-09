@@ -50,8 +50,11 @@ def luu_ngan_sach(ns):
 
 
 def tinh_tong(ds, loai, thang):
-    pass
-
+    tong = 0
+    for gd in ds:
+        if gd["loai"] == loai and gd["ngay"][:7] == thang:
+            tong += gd["so_tien"]
+    return tong
 
 def tinh_tong_theo_danh_muc(ds, danh_muc, thang):
     tong = 0
@@ -63,17 +66,24 @@ def tinh_tong_theo_danh_muc(ds, danh_muc, thang):
     return tong
 
 # Thời xong
-def loc_giao_dich(ds, thang, loai, danh_muc):
+def loc_giao_dich(ds, thang="", loai="", danh_muc=""):
     ket_qua = []
     for gd in ds:
         thang_gd = gd["ngay"][:7]
-        if (thang_gd == thang and
-            gd["loai"].lower() == loai.lower() and
-            gd["danh_muc"].lower() == danh_muc.lower()):
+        dieu_kien_thang = (thang == "" or thang_gd == thang)
+        dieu_kien_loai = (loai == "" or gd["loai"].lower() == loai.lower())
+        dieu_kien_danh_muc = (danh_muc == "" or gd["danh_muc"].lower() == danh_muc.lower())
+
+        if dieu_kien_thang and dieu_kien_loai and dieu_kien_danh_muc:
             ket_qua.append(gd)
     return ket_qua
 
-
 def tinh_tiet_kiem_cong_don(ds, thang):
-    # Cộng dồn từ đầu đến hết tháng `thang`: thu cộng, chi trừ
-    pass
+    tiet_kiem_cd = 0
+    for gd in ds:
+        if gd["ngay"][:7] <= thang:
+            if gd["loai"] == "thu":
+                tiet_kiem_cd += gd["so_tien"]
+            else:
+                tiet_kiem_cd -= gd["so_tien"]
+    return tiet_kiem_cd
