@@ -360,7 +360,7 @@ lbl_tk.pack(pady=5, fill="x", padx=10)
 
 
 def chay():
-    hien_thi_danh_sach()
+    #hien_thi_danh_sach()
     root.mainloop()
 
 
