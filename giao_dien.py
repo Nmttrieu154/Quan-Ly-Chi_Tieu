@@ -1,8 +1,3 @@
-# ============================================================
-# giao_dien.py  —  Giao diện + xử lý khi bấm nút
-# Bạn cần điền code vào các hàm có chữ TODO ở phía dưới
-# ============================================================
-
 import tkinter as tk
 from tkinter import ttk, messagebox
 from datetime import datetime
@@ -21,11 +16,7 @@ DANH_MUC_CHI = [
     "Khác",
 ]
 
-
-# ============================================================
-# CÁC HÀM XỬ LÝ SỰ KIỆN  (gọi khi bấm nút)
-# ============================================================
-
+# Các hàm sự kiện
 
 def doi_danh_muc(*args):
     loai = var_loai.get()
@@ -92,7 +83,7 @@ def them_giao_dich():
     hien_thi_danh_sach()
 
     if loai == "chi":
-        thang = ngay[:7]  # Lấy chuỗi YYYY-MM từ ngày
+        thang = ngay[:7]  
         canh_bao_ngan_sach(danh_muc, thang)
 
 
@@ -141,7 +132,7 @@ def canh_bao_ngan_sach(danh_muc, thang):
 
     if tong_chi > han_muc:
         messagebox.showwarning(
-            "⚠️ Vượt ngân sách!",
+            "Cảnh báo vượt ngân sách!!!",
             f"Danh mục: {danh_muc}\n"
             f"Tháng: {thang}\n"
             f"Hạn mức: {han_muc:,} đ\n"
@@ -212,10 +203,8 @@ def hien_tat_ca():
     hien_thi_danh_sach()  # hiện lại bảng
 
 
-# ============================================================
-# TẠO CỬA SỔ VÀ WIDGET
-# (phần này không cần sửa gì nhé)
-# ============================================================
+
+# Cửa sổ và WIDGET
 
 root = tk.Tk()
 root.title("Quản Lý Chi Tiêu Cá Nhân")
@@ -361,11 +350,6 @@ lbl_tk = tk.Label(
     bg="#e8f4fd",
 )
 lbl_tk.pack(pady=5, fill="x", padx=10)
-
-
-# ============================================================
-# HÀM CHẠY (gọi từ main.py)
-# ============================================================
 
 
 def chay():
