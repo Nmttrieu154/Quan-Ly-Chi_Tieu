@@ -126,5 +126,13 @@
     "so_tien": 300000,
     "ngay": "2026-05-04",
     "ghi_chu": "Khám sức khỏe"
+  },
+  {
+    "id": 17,
+    "loai": "thu",
+    "danh_muc": "Lương",
+    "so_tien": 5000000,
+    "ngay": "2026-05-10",
+    "ghi_chu": "luowng"
   }
 ]

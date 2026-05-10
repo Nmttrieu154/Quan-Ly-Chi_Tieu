@@ -56,27 +56,34 @@ def tinh_tong(ds, loai, thang):
             tong += gd["so_tien"]
     return tong
 
+
 def tinh_tong_theo_danh_muc(ds, danh_muc, thang):
     tong = 0
     for gd in ds:
-        if (gd["ngay"][:7] == thang and
-            gd["loai"] == "chi" and
-            gd["danh_muc"].lower() == danh_muc.lower()):
+        if (
+            gd["ngay"][:7] == thang
+            and gd["loai"] == "chi"
+            and gd["danh_muc"].lower() == danh_muc.lower()
+        ):
             tong += gd["so_tien"]
     return tong
+
 
 # Thời xong
 def loc_giao_dich(ds, thang="", loai="", danh_muc=""):
     ket_qua = []
     for gd in ds:
         thang_gd = gd["ngay"][:7]
-        dieu_kien_thang = (thang == "" or thang_gd == thang)
-        dieu_kien_loai = (loai == "" or gd["loai"].lower() == loai.lower())
-        dieu_kien_danh_muc = (danh_muc == "" or gd["danh_muc"].lower() == danh_muc.lower())
+        dieu_kien_thang = thang == "" or thang_gd == thang
+        dieu_kien_loai = loai == "" or gd["loai"].lower() == loai.lower()
+        dieu_kien_danh_muc = (
+            danh_muc == "" or gd["danh_muc"].lower() == danh_muc.lower()
+        )
 
         if dieu_kien_thang and dieu_kien_loai and dieu_kien_danh_muc:
             ket_qua.append(gd)
     return ket_qua
+
 
 def tinh_tiet_kiem_cong_don(ds, thang):
     tiet_kiem_cd = 0

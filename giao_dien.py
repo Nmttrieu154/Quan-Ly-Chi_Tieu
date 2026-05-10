@@ -26,6 +26,7 @@ DANH_MUC_CHI = [
 # CÁC HÀM XỬ LÝ SỰ KIỆN  (gọi khi bấm nút)
 # ============================================================
 
+
 def doi_danh_muc(*args):
     loai = var_loai.get()
     if loai == "thu":
@@ -35,6 +36,7 @@ def doi_danh_muc(*args):
         cb_danh_muc.config(values=DANH_MUC_CHI)
         cb_danh_muc.set(DANH_MUC_CHI[0])
 
+
 def them_giao_dich():
     loai = var_loai.get()
     danh_muc = cb_danh_muc.get().strip()
@@ -42,7 +44,9 @@ def them_giao_dich():
     ngay = e_ngay.get().strip()
     ghi_chu = e_ghi_chu.get().strip()
     if not danh_muc or not so_tien_str or not ngay:
-        messagebox.showwarning("Lỗi nhập liệu", "Vui lòng nhập đầy đủ Danh mục, Số tiền và Ngày!")
+        messagebox.showwarning(
+            "Lỗi nhập liệu", "Vui lòng nhập đầy đủ Danh mục, Số tiền và Ngày!"
+        )
         return
     try:
         so_tien = int(so_tien_str)
@@ -50,36 +54,43 @@ def them_giao_dich():
             messagebox.showwarning("Lỗi nhập liệu", "Số tiền phải lớn hơn 0!")
             return
     except ValueError:
-        messagebox.showwarning("Lỗi nhập liệu", "Số tiền phải là số nguyên (không chứa chữ hoặc ký tự đặc biệt)!")
+        messagebox.showwarning(
+            "Lỗi nhập liệu",
+            "Số tiền phải là số nguyên (không chứa chữ hoặc ký tự đặc biệt)!",
+        )
         return
     try:
         datetime.strptime(ngay, "%Y-%m-%d")
     except ValueError:
-        messagebox.showwarning("Lỗi nhập liệu", "Ngày phải nhập đúng định dạng YYYY-MM-DD!")
+        messagebox.showwarning(
+            "Lỗi nhập liệu", "Ngày phải nhập đúng định dạng YYYY-MM-DD!"
+        )
         return
     ds = h.doc_giao_dich()
-    
+
     id_moi = max([gd["id"] for gd in ds], default=0) + 1
-    
+
     gd_moi = {
         "id": id_moi,
         "loai": loai,
         "danh_muc": danh_muc,
         "so_tien": so_tien,
         "ngay": ngay,
-        "ghi_chu": ghi_chu
+        "ghi_chu": ghi_chu,
     }
-    
+
     ds.append(gd_moi)
     h.luu_giao_dich(ds)
 
-    messagebox.showinfo("Thành công", f"Đã lưu giao dịch:\n[{loai.upper()}] {danh_muc} - {so_tien:,} đ")
+    messagebox.showinfo(
+        "Thành công", f"Đã lưu giao dịch:\n[{loai.upper()}] {danh_muc} - {so_tien:,} đ"
+    )
 
     e_so_tien.delete(0, tk.END)
     e_ghi_chu.delete(0, tk.END)
 
     hien_thi_danh_sach()
-    
+
     if loai == "chi":
         thang = ngay[:7]  # Lấy chuỗi YYYY-MM từ ngày
         canh_bao_ngan_sach(danh_muc, thang)
@@ -91,7 +102,9 @@ def luu_ngan_sach_ui():
     han_muc_str = e_ns_hanmuc.get().strip()
 
     if not thang or not danh_muc or not han_muc_str:
-        messagebox.showwarning("Thiếu thông tin", "Vui lòng nhập đầy đủ tháng, danh mục và hạn mức.")
+        messagebox.showwarning(
+            "Thiếu thông tin", "Vui lòng nhập đầy đủ tháng, danh mục và hạn mức."
+        )
         return
 
     try:
@@ -109,11 +122,11 @@ def luu_ngan_sach_ui():
     ns[thang][danh_muc] = han_muc
 
     h.luu_ngan_sach(ns)
-    messagebox.showinfo("Thành công", f"Đã lưu ngân sách:\n{danh_muc} | Tháng {thang}: {han_muc:,} đ")
+    messagebox.showinfo(
+        "Thành công", f"Đã lưu ngân sách:\n{danh_muc} | Tháng {thang}: {han_muc:,} đ"
+    )
 
-    ds = h.doc_giao_dich()
     canh_bao_ngan_sach(danh_muc, thang)
-    pass
 
 
 def canh_bao_ngan_sach(danh_muc, thang):
@@ -133,9 +146,8 @@ def canh_bao_ngan_sach(danh_muc, thang):
             f"Tháng: {thang}\n"
             f"Hạn mức: {han_muc:,} đ\n"
             f"Đã chi: {tong_chi:,} đ\n"
-            f"Vượt: {tong_chi - han_muc:,} đ"
+            f"Vượt: {tong_chi - han_muc:,} đ",
         )
-    pass
 
 
 # xong Nhân
@@ -151,9 +163,6 @@ def hien_thi_danh_sach():
 
     ds = h.doc_giao_dich()
     ket_qua = h.loc_giao_dich(ds, thang, loai_loc, dm_loc)
-
-    if not ket_qua:
-        return
 
     for i in range(len(ket_qua) - 1):
         for j in range(i + 1, len(ket_qua)):
@@ -360,10 +369,5 @@ lbl_tk.pack(pady=5, fill="x", padx=10)
 
 
 def chay():
-    #hien_thi_danh_sach()
+    hien_thi_danh_sach()
     root.mainloop()
-
-
-# Cho phép chạy trực tiếp file này (py giao_dien.py) nếu muốn
-if __name__ == "__main__":
-    chay()
