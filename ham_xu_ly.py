@@ -1,20 +1,8 @@
-# ============================================================
-# ham_xu_ly.py  —  Hàm xử lý dữ liệu (đọc/ghi file, tính toán)
-# Bạn cần điền code vào các hàm có chữ TODO
-# ============================================================
-
 import json
 import os
 
-# Tên 2 file dữ liệu (đặt trong cùng folder với main.py)
 FILE_GD = "transactions.json"  # file chứa danh sách giao dịch
 FILE_NS = "budgets.json"  # file chứa ngân sách theo tháng
-
-
-# ============================================================
-# ĐỌC / GHI FILE
-# ============================================================
-
 
 # Xong Nhân
 def doc_giao_dich():
@@ -43,19 +31,12 @@ def luu_ngan_sach(ns):
     with open(FILE_NS, "w", encoding="utf-8") as f:
         json.dump(ns, f, ensure_ascii=False, indent=2)
 
-
-# ============================================================
-# TÍNH TOÁN
-# ============================================================
-
-
 def tinh_tong(ds, loai, thang):
     tong = 0
     for gd in ds:
         if gd["loai"] == loai and gd["ngay"][:7] == thang:
             tong += gd["so_tien"]
     return tong
-
 
 def tinh_tong_theo_danh_muc(ds, danh_muc, thang):
     tong = 0
